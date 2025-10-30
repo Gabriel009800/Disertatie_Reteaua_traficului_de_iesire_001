@@ -17,6 +17,54 @@
   <script src="js/main.js" type="text/javascript" language="javascript"></script>
 
 
+
+	<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function () {
+  var t = setInterval(function () {
+    if (window.sigma && sigma.canvas && sigma.canvas.edges && sigma.canvas.edges.curve) {
+      
+      // Suprascriem funcția originală de desen pentru muchiile curbate
+      sigma.canvas.edges.curve = function(edge, source, target, context, settings) {
+        var prefix = settings('prefix') || '';
+        var size = edge[prefix + 'size'] || 1;
+        var color = edge.color || settings('defaultEdgeColor') || '#999';
+        var sx = source[prefix + 'x'];
+        var sy = source[prefix + 'y'];
+        var tx = target[prefix + 'x'];
+        var ty = target[prefix + 'y'];
+
+        // Calculăm punctul median și control point pentru curbă
+        var dx = tx - sx, dy = ty - sy;
+        var dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        var mx = (sx + tx) / 2;
+        var my = (sy + ty) / 2;
+        var nx = -dy / dist, ny = dx / dist;
+        var k = 0.25; // intensitatea curburii
+        var cpx = mx + nx * k * dist;
+        var cpy = my + ny * k * dist;
+
+        // 🔹 Îngroșăm toate muchiile (de exemplu, de 2.5x mai groase)
+        var thickness = 5; // crește la 3, 4 etc. după preferință
+        context.lineWidth = size * thickness;
+
+        context.strokeStyle = color;
+        context.beginPath();
+        context.moveTo(sx, sy);
+        context.quadraticCurveTo(cpx, cpy, tx, ty);
+        context.stroke();
+      };
+
+      // redesenăm graful după schimbare
+      if (window.sigInst) sigInst.draw(2,2,2,2);
+      clearInterval(t);
+    }
+  }, 200);
+});
+</script>
+
+
+
+	
 <script type="text/javascript">
   // Îngroașă toate muchiile curbate
   document.addEventListener("DOMContentLoaded", function () {
@@ -32,7 +80,7 @@
           e.attr.size = 4;                  // ↑ crește la 2.5 / 3 dacă vrei și mai gros
 
           // VARIANTA B (opțională): scala la dublu ce ai deja
-          // e.attr.size = (e.attr.size || 1) * 1.8;
+          // e.attr.size = (e.attr.size || 1) * 3;
         });
 
         sigInst.draw(2,2,2,2);
