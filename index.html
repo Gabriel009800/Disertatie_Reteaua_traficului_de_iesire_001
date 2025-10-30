@@ -16,111 +16,7 @@
   <script src="js/fancybox/jquery.fancybox.pack.js" type="text/javascript" language="javascript"></script>
   <script src="js/main.js" type="text/javascript" language="javascript"></script>
 
-
-
-	<script type="text/javascript">
-document.addEventListener("DOMContentLoaded", function () {
-  var t = setInterval(function () {
-    if (window.sigma && sigma.canvas && sigma.canvas.edges && sigma.canvas.edges.curve) {
-
-
-<style>
-/* Fundal negru pentru canvasul principal Sigma */
-#sigma-canvas {
-  background-color: #000 !important;
-}
-
-/* (opțional) schimbă culoarea legendei și a textului dacă vrei contrast */
-.legend {
-  background: rgba(0, 0, 0, 0.8) !important;
-  color: white !important;
-  box-shadow: 0 0 10px rgba(255,255,255,0.15) !important;
-}
-
-/* (opțional) text alb în panoul lateral */
-#mainpanel, #attributepane, #information {
-  background-color: #000 !important;
-  color: #fff !important;
-}
-</style>
-
-
-
-		
-      // Suprascriem funcția originală de desen pentru muchiile curbate
-      sigma.canvas.edges.curve = function(edge, source, target, context, settings) {
-        var prefix = settings('prefix') || '';
-        var size = edge[prefix + 'size'] || 1;
-        var color = edge.color || settings('defaultEdgeColor') || '#999';
-        var sx = source[prefix + 'x'];
-        var sy = source[prefix + 'y'];
-        var tx = target[prefix + 'x'];
-        var ty = target[prefix + 'y'];
-
-        // Calculăm punctul median și control point pentru curbă
-        var dx = tx - sx, dy = ty - sy;
-        var dist = Math.sqrt(dx*dx + dy*dy) || 1;
-        var mx = (sx + tx) / 2;
-        var my = (sy + ty) / 2;
-        var nx = -dy / dist, ny = dx / dist;
-        var k = 0.25; // intensitatea curburii
-        var cpx = mx + nx * k * dist;
-        var cpy = my + ny * k * dist;
-
-        // 🔹 Îngroșăm toate muchiile (de exemplu, de 2.5x mai groase)
-        var thickness = 5; // crește la 3, 4 etc. după preferință
-        context.lineWidth = size * thickness;
-
-        context.strokeStyle = color;
-        context.beginPath();
-        context.moveTo(sx, sy);
-        context.quadraticCurveTo(cpx, cpy, tx, ty);
-        context.stroke();
-      };
-
-      // redesenăm graful după schimbare
-      if (window.sigInst) sigInst.draw(2,2,2,2);
-      clearInterval(t);
-    }
-  }, 200);
-});
-</script>
-
-
-
-	
 <script type="text/javascript">
-  // Îngroașă toate muchiile curbate
-  document.addEventListener("DOMContentLoaded", function () {
-    var t = setInterval(function () {
-      if (window.sigInst && sigInst.iterEdges) {
-        // 1) ne asigurăm că toate sunt curbe
-        sigInst.iterEdges(function (e) {
-          e.attr = e.attr || {};
-          e.attr.type = 'curve';              // păstrează curbele
-          
-          // 2) setează grosimea (alege una dintre variante)
-          // VARIANTA A: grosime fixă (simplu și sigur)
-          e.attr.size = 4;                  // ↑ crește la 2.5 / 3 dacă vrei și mai gros
-
-          // VARIANTA B (opțională): scala la dublu ce ai deja
-          // e.attr.size = (e.attr.size || 1) * 3;
-        });
-
-        sigInst.draw(2,2,2,2);
-        clearInterval(t);
-      }
-    }, 150);
-  });
-</script>
-
-
-	
-
-
-	
-
-	<script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
     var t = setInterval(function () {
       if (window.sigInst && sigInst._core && sigInst._core.domElements) {
@@ -269,7 +165,6 @@ canvas.labels {
     z-index: 9999;
 ">
   <b>Legendă – Clustere ideologice</b><br>
-
   <div><span style="background:#BF8002;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Om și societate. Naționalist</div>
   <div><span style="background:#FFAE4D;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Religios. Fundamentalist</div>
   <div><span style="background:#FF454C;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Știri. Anti-sistem</div>
