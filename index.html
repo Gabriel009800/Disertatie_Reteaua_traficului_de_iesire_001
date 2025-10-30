@@ -22,7 +22,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   var t = setInterval(function () {
     if (window.sigma && sigma.canvas && sigma.canvas.edges && sigma.canvas.edges.curve) {
-      
+
+
+<style>
+/* Fundal negru pentru canvasul principal Sigma */
+#sigma-canvas {
+  background-color: #000 !important;
+}
+
+/* (opțional) schimbă culoarea legendei și a textului dacă vrei contrast */
+.legend {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+  box-shadow: 0 0 10px rgba(255,255,255,0.15) !important;
+}
+
+/* (opțional) text alb în panoul lateral */
+#mainpanel, #attributepane, #information {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+</style>
+
+
+
+		
       // Suprascriem funcția originală de desen pentru muchiile curbate
       sigma.canvas.edges.curve = function(edge, source, target, context, settings) {
         var prefix = settings('prefix') || '';
