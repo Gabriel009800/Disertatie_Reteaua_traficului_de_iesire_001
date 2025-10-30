@@ -17,6 +17,36 @@
   <script src="js/main.js" type="text/javascript" language="javascript"></script>
 
 
+<script type="text/javascript">
+  // Îngroașă toate muchiile curbate
+  document.addEventListener("DOMContentLoaded", function () {
+    var t = setInterval(function () {
+      if (window.sigInst && sigInst.iterEdges) {
+        // 1) ne asigurăm că toate sunt curbe
+        sigInst.iterEdges(function (e) {
+          e.attr = e.attr || {};
+          e.attr.type = 'curve';              // păstrează curbele
+          
+          // 2) setează grosimea (alege una dintre variante)
+          // VARIANTA A: grosime fixă (simplu și sigur)
+          e.attr.size = 2.2;                  // ↑ crește la 2.5 / 3 dacă vrei și mai gros
+
+          // VARIANTA B (opțională): scala la dublu ce ai deja
+          // e.attr.size = (e.attr.size || 1) * 1.8;
+        });
+
+        sigInst.draw(2,2,2,2);
+        clearInterval(t);
+      }
+    }, 150);
+  });
+</script>
+
+
+	
+
+
+	
 
 	<script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
@@ -167,14 +197,9 @@ canvas.labels {
     z-index: 9999;
 ">
   <b>Legendă – Clustere ideologice</b><br>
-  <div><span style="background:#150C45;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Chatbot</div>
-  <div><span style="background:#0911FF;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Om și societate. Oficial</div>
-  <div><span style="background:#00F0E1;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Om și societate. Moderat</div>
+
   <div><span style="background:#BF8002;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Om și societate. Naționalist</div>
-  <div><span style="background:#01B32C;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Religios. Oficial</div>
-  <div><span style="background:#2DEB3C;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Religios. Moderat</div>
   <div><span style="background:#FFAE4D;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Religios. Fundamentalist</div>
-  <div><span style="background:#8897FF;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Știri. Mainstream</div>
   <div><span style="background:#FF454C;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Știri. Anti-sistem</div>
   <div><span style="background:#E3A3D9;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Pseudoștiințe. Bioenergopați</div>
   <div><span style="background:#E303E0;display:inline-block;width:14px;height:14px;margin-right:6px;border-radius:3px;"></span>Pseudoștiințe. Conspirații</div>
